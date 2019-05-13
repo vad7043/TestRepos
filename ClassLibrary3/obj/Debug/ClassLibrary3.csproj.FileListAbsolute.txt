@@ -7,3 +7,12 @@ C:\Users\Вадим\source\repos\ClassLibrary3\ClassLibrary3\obj\Debug\ClassLibr
 C:\Users\Вадим\source\repos\ClassLibrary3\ClassLibrary3\obj\Debug\ClassLibrary3.csproj.CopyComplete
 C:\Users\Вадим\source\repos\ClassLibrary3\ClassLibrary3\obj\Debug\ClassLibrary3.dll
 C:\Users\Вадим\source\repos\ClassLibrary3\ClassLibrary3\obj\Debug\ClassLibrary3.pdb
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\bin\Debug\ClassLibrary3.dll
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\bin\Debug\ClassLibrary3.pdb
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\obj\Debug\ClassLibrary3.csprojAssemblyReference.cache
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\obj\Debug\ClassLibrary3.csproj.CoreCompileInputs.cache
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\obj\Debug\ClassLibrary3.csproj.CopyComplete
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\obj\Debug\ClassLibrary3.dll
+C:\Users\Вадим\source\repos\NewRepo\ClassLibrary3\obj\Debug\ClassLibrary3.pdb

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -13,52 +14,64 @@ namespace ClassLibrary3
 {
     public class Functions
     {
-        public bool AutorizationFunc(string User_login, string User_Hash, string User_url)
+        public  AuthResult Authorization(string login, string api, string adress)
         {
-            using (var webClient = new WebClient())
+            var data = new NameValueCollection()
             {
-                var pars = new NameValueCollection();
-                pars.Add("USER_LOGIN", User_login);
-                pars.Add("USER_HASH", User_Hash);
-                var response = webClient.UploadValues(User_url, pars);
-                string str = Encoding.UTF8.GetString(response);
-                dynamic resultDynamic = JObject.Parse(str);
-                return resultDynamic.response.auth;
-            }
-        }
-        public string AddTask(string User_login, string User_Hash, string User_url)
-        {
+                { "USER_LOGIN",login },
+                { "USER_HASH",api },
+            };
             using (var webClient = new CookieWebClient())
             {
-                var pars = new NameValueCollection();
-                pars.Add("USER_LOGIN", User_login);
-                pars.Add("USER_HASH", User_Hash);
-                var response = webClient.UploadValues(User_url, pars);
-                string str = Encoding.UTF8.GetString(response);
-                dynamic resultDynamic = JObject.Parse(str);
-
-                var newAmoTask = new AmoApiAddTask
-                {
-                    element_id = 185241,
-                    element_type = 2,
-                    complete_till_at = (long)(DateTime.UtcNow.Subtract(new DateTime(2019, 1, 1))).TotalSeconds,
-                    task_type = 1,
-                    text = "qwe",
-                    created_at = (long)(DateTime.UtcNow.Subtract(new DateTime(2019, 1, 1))).TotalSeconds,
-                    updated_at = (long)(DateTime.UtcNow.Subtract(new DateTime(2019, 1, 1))).TotalSeconds,
-                    responsible_user_id = 3455599,
-                    created_by = 3455599,
-                };
-                var data1 = JsonConvert.SerializeObject(new AmoModel()
-                {
-                    add = new[]
-                    {
-                         newAmoTask
-                    }
-                });
-                var response1 = webClient.UploadString("https://vad7043.amocrm.ru/private/api/v2/json/tasks", data1);
-                return response1;
+                AuthResult ar = new AuthResult();
+                ar.Response = new AuthResultResponse();
+                var response = webClient.UploadValues(adress, data);
+                string stringResponse = Encoding.UTF8.GetString(response);
+                dynamic resultDynamic = JObject.Parse(stringResponse);
+                ar.Response.auth = resultDynamic.response.auth;
+                ar.Cookie = webClient.CookieContainer.GetCookies(new Uri(adress));
+                return ar;
             }
+        }
+        public string AddTask(AmoApiAddTask task, string adress, CookieCollection cookie)
+        {
+            var data1 = JsonConvert.SerializeObject(new AmoModel()
+            {
+                add = new[]
+                   {
+                         task
+                    }
+            });
+            var a = getJson(adress, data1, cookie);
+            return a;
+        }
+        public static string getJson(string urlPath, string inputJson, CookieCollection cookie)
+        {
+            var data = Encoding.UTF8.GetBytes(inputJson);
+            var request = (HttpWebRequest)WebRequest.Create(urlPath);
+
+            request.Method = "POST";
+            request.ContentType = "application/json";
+            request.ContentLength = data.Length;
+            request.CookieContainer = new CookieContainer();
+            request.CookieContainer.Add(cookie);
+
+            using (Stream stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+                stream.Close();
+            }
+
+            string _stringResponse = "";
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    _stringResponse = reader.ReadToEnd();
+                }
+                response.Close();
+            }
+            return _stringResponse;
         }
     }
 }

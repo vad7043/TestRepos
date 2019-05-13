@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\AuthResult.cs" />
     <Compile Include="Functions.cs" />
     <Compile Include="Components\CookieContainer.cs">
       <SubType>Component</SubType>
